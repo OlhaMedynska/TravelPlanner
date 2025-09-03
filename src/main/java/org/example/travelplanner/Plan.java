@@ -25,6 +25,9 @@ public class Plan {
     private LocalDate startDate;
     private LocalDate endDate;
 
+    @Column(length = 255)
+    private String comment;
+
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;

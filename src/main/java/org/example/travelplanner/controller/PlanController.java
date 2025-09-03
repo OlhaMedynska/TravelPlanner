@@ -1,6 +1,7 @@
 package org.example.travelplanner.controller;
 
 import org.example.travelplanner.Plan;
+import org.example.travelplanner.dto.PlanDTO;
 import org.example.travelplanner.service.PlanService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -26,13 +27,13 @@ public class PlanController {
     }
 
     @PostMapping
-    public Plan create(@RequestBody Plan plan) {
-        return planService.createPlan(plan);
+    public Plan create(@RequestBody PlanDTO dto) {
+        return planService.createPlan(dto);
     }
 
     @PutMapping("/{id}")
-    public Plan update(@PathVariable int id, @RequestBody Plan plan) {
-        return planService.updatePlan(id, plan);
+    public Plan update(@PathVariable int id, @RequestBody PlanDTO dto) {
+        return planService.updatePlan(id, dto);
     }
 
     @DeleteMapping("/{id}")

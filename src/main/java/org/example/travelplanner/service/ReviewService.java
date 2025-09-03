@@ -52,8 +52,8 @@ public class ReviewService {
         review.setComment(dto.getComment());
         review.setRating(dto.getRating());
 
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new RuntimeException("User not found"));
         Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new RuntimeException("Attraction is not found"));
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new RuntimeException("User not found"));
 
         review.setUser(user);
         review.setAttraction(attraction);
