@@ -1,12 +1,13 @@
 package org.example.travelplanner.dto;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 public class PlanDTO {
     private LocalDate endDate;
     private LocalDate startDate;
     private int userId;
-    private int attractionId;
+    private Set<Integer> attractionIds;
     private String name;
     private String comment;
 
@@ -35,12 +36,12 @@ public class PlanDTO {
         return userId;
     }
 
-    public void setAttractionId(int attractionId) {
-        this.attractionId = attractionId;
+    public void setAttractionIds(Set<Integer> attractionIds) {
+        this.attractionIds = attractionIds;
     }
 
-    public int getAttractionId() {
-        return attractionId;
+    public Set<Integer> getAttractionIds() {
+        return attractionIds;
     }
 
     public void setName(String name) {

@@ -8,7 +8,10 @@ import org.example.travelplanner.repository.AttractionRepository;
 import org.example.travelplanner.repository.PlanRepository;
 import org.example.travelplanner.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PlanService {
@@ -40,11 +43,15 @@ public class PlanService {
         plan.setComment(dto.getComment());
 
         User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new RuntimeException("User not found"));
-        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new RuntimeException("Attraction is not found"));
-
         plan.setUser(user);
-        plan.setAttractions(attraction);
 
+        if(dto.getAttractionIds() != null & !dto.getAttractionIds().isEmpty()) {
+            Set<Attraction> attractions = dto.getAttractionIds().stream()
+                    .map(id -> attractionRepository.findById(id))
+                    .orElseThrow(() -> new RuntimeException("Attraction not found"))
+                    .collect(Collectors.toSet());
+            plan.setAttractions(attractions);
+        }
 
         return planRepository.save(plan);
     }
@@ -55,12 +62,19 @@ public class PlanService {
         plan.setName(dto.getName());
         plan.setStartDate(dto.getStartDate());
         plan.setEndDate(dto.getEndDate());
+        plan.setComment(dto.getComment());
 
         User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new RuntimeException("User not found"));
-        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new RuntimeException("Attraction is not found"));
 
         plan.setUser(user);
-        plan.setAttractions(attraction);
+
+        if(dto.getAttractionIds() != null & !dto.getAttractionIds().isEmpty()) {
+            Set<Attraction> attractions = dto.getAttractionIds().stream()
+                    .map(attractionId -> attractionRepository.findById(attractionId))
+                    .orElseThrow(() -> new RuntimeException("Attraction not found"))
+                    .collect(Collectors.toSet());
+            plan.setAttractions(attractions);
+        }
 
         return planRepository.save(plan);
     }
