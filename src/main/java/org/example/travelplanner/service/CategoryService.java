@@ -1,6 +1,6 @@
 package org.example.travelplanner.service;
 
-import org.example.travelplanner.entity.Category;
+import org.example.travelplanner.Category;
 import org.example.travelplanner.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -18,7 +18,7 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category getCategoryById(Long id) {
+    public Category getCategoryById(int id) {
         return categoryRepository.findById(id).orElse(null);
     }
 
@@ -26,13 +26,13 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category updateCategory(Long id, Category categoryDetails) {
+    public Category updateCategory(int id, Category categoryDetails) {
         Category category = categoryRepository.findById(id).orElseThrow();
         category.setName(categoryDetails.getName());
         return categoryRepository.save(category);
     }
 
-    public void deleteCategory(Long id) {
+    public void deleteCategory(int id) {
         categoryRepository.deleteById(id);
     }
 }

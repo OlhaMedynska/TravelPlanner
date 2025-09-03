@@ -1,6 +1,7 @@
 package org.example.travelplanner.controller;
 
-import org.example.travelplanner.entity.Attraction;
+import org.example.travelplanner.Attraction;
+import org.example.travelplanner.dto.AttractionDTO;
 import org.example.travelplanner.service.AttractionService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -21,22 +22,22 @@ public class AttractionController {
     }
 
     @GetMapping("/{id}")
-    public Attraction getById(@PathVariable Long id) {
+    public Attraction getById(@PathVariable int id) {
         return attractionService.getAttractionById(id);
     }
 
     @PostMapping
-    public Attraction create(@RequestBody Attraction attraction) {
-        return attractionService.createAttraction(attraction);
+    public Attraction create(@RequestBody AttractionDTO dto) {
+        return attractionService.createAttraction(dto);
     }
 
     @PutMapping("/{id}")
-    public Attraction update(@PathVariable Long id, @RequestBody Attraction attraction) {
-        return attractionService.updateAttraction(id, attraction);
+    public Attraction update(@PathVariable int id, @RequestBody AttractionDTO dto) {
+        return attractionService.updateAttraction(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable int id) {
         attractionService.deleteAttraction(id);
     }
 }

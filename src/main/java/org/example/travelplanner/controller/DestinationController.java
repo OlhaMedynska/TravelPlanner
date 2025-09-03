@@ -1,6 +1,6 @@
 package org.example.travelplanner.controller;
 
-import org.example.travelplanner.entity.Destination;
+import org.example.travelplanner.Destination;
 import org.example.travelplanner.service.DestinationService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -21,7 +21,7 @@ public class DestinationController {
     }
 
     @GetMapping("/{id}")
-    public Destination getById(@PathVariable Long id) {
+    public Destination getById(@PathVariable int id) {
         return destinationService.getDestinationById(id);
     }
 
@@ -31,12 +31,12 @@ public class DestinationController {
     }
 
     @PutMapping("/{id}")
-    public Destination update(@PathVariable Long id, @RequestBody Destination destination) {
+    public Destination update(@PathVariable int id, @RequestBody Destination destination) {
         return destinationService.updateDestination(id, destination);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable int id) {
         destinationService.deleteDestination(id);
     }
 }

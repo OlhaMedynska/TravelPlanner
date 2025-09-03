@@ -1,6 +1,6 @@
 package org.example.travelplanner.service;
 
-import org.example.travelplanner.entity.Destination;
+import org.example.travelplanner.Destination;
 import org.example.travelplanner.repository.DestinationRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -18,7 +18,7 @@ public class DestinationService {
         return destinationRepository.findAll();
     }
 
-    public Destination getDestinationById(Long id) {
+    public Destination getDestinationById(int id) {
         return destinationRepository.findById(id).orElse(null);
     }
 
@@ -26,7 +26,7 @@ public class DestinationService {
         return destinationRepository.save(destination);
     }
 
-    public Destination updateDestination(Long id, Destination destinationDetails) {
+    public Destination updateDestination(int id, Destination destinationDetails) {
         Destination destination = destinationRepository.findById(id).orElseThrow();
         destination.setName(destinationDetails.getName());
         destination.setCountry(destinationDetails.getCountry());
@@ -34,7 +34,7 @@ public class DestinationService {
         return destinationRepository.save(destination);
     }
 
-    public void deleteDestination(Long id) {
+    public void deleteDestination(int id) {
         destinationRepository.deleteById(id);
     }
 }

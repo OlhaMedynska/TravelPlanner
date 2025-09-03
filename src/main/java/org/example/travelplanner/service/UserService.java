@@ -18,7 +18,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User getUserById(Long id) {
+    public User getUserById(int id) {
         return userRepository.findById(id).orElse(null);
     }
 
@@ -26,7 +26,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(Long id, User userDetails) {
+    public User updateUser(int id, User userDetails) {
         User user = userRepository.findById(id).orElseThrow();
         user.setUsername(userDetails.getUsername());
         user.setPassword(userDetails.getPassword());
@@ -34,7 +34,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void deleteUser(Long id) {
+    public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
 }

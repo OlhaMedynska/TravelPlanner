@@ -1,6 +1,6 @@
 package org.example.travelplanner.controller;
 
-import org.example.travelplanner.entity.Category;
+import org.example.travelplanner.Category;
 import org.example.travelplanner.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -21,7 +21,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public Category getById(@PathVariable Long id) {
+    public Category getById(@PathVariable int id) {
         return categoryService.getCategoryById(id);
     }
 
@@ -31,12 +31,12 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public Category update(@PathVariable Long id, @RequestBody Category category) {
+    public Category update(@PathVariable int id, @RequestBody Category category) {
         return categoryService.updateCategory(id, category);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable int id) {
         categoryService.deleteCategory(id);
     }
 }

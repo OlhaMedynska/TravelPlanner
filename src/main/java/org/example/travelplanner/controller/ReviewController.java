@@ -1,6 +1,7 @@
 package org.example.travelplanner.controller;
 
-import org.example.travelplanner.entity.Review;
+import org.example.travelplanner.Review;
+import org.example.travelplanner.dto.ReviewDTO;
 import org.example.travelplanner.service.ReviewService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -21,22 +22,22 @@ public class ReviewController {
     }
 
     @GetMapping("/{id}")
-    public Review getById(@PathVariable Long id) {
+    public Review getById(@PathVariable int id) {
         return reviewService.getReviewById(id);
     }
 
     @PostMapping
-    public Review create(@RequestBody Review review) {
-        return reviewService.createReview(review);
+    public Review create(@RequestBody ReviewDTO dto) {
+        return reviewService.createReview(dto);
     }
 
     @PutMapping("/{id}")
-    public Review update(@PathVariable Long id, @RequestBody Review review) {
-        return reviewService.updateReview(id, review);
+    public Review update(@PathVariable int id, @RequestBody ReviewDTO dto) {
+        return reviewService.updateReview(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public void delete(@PathVariable int id) {
         reviewService.deleteReview(id);
     }
 }

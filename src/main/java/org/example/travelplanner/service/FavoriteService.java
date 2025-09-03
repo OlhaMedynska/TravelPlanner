@@ -1,7 +1,12 @@
 package org.example.travelplanner.service;
 
-import org.example.travelplanner.entity.Favorite;
+import org.example.travelplanner.Attraction;
+import org.example.travelplanner.Favorite;
+import org.example.travelplanner.User;
+import org.example.travelplanner.dto.FavoriteDTO;
+import org.example.travelplanner.repository.AttractionRepository;
 import org.example.travelplanner.repository.FavoriteRepository;
+import org.example.travelplanner.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -9,31 +14,48 @@ import java.util.List;
 public class FavoriteService {
 
     private final FavoriteRepository favoriteRepository;
+    private final UserRepository userRepository;
+    private final AttractionRepository attractionRepository;
 
-    public FavoriteService(FavoriteRepository favoriteRepository) {
+    public FavoriteService(FavoriteRepository favoriteRepository, UserRepository userRepository, AttractionRepository attractionRepository) {
         this.favoriteRepository = favoriteRepository;
+        this.userRepository = userRepository;
+        this.attractionRepository = attractionRepository;
     }
 
     public List<Favorite> getAllFavorites() {
         return favoriteRepository.findAll();
     }
 
-    public Favorite getFavoriteById(Long id) {
+    public Favorite getFavoriteById(int id) {
         return favoriteRepository.findById(id).orElse(null);
     }
 
-    public Favorite createFavorite(Favorite favorite) {
+    public Favorite createFavorite(FavoriteDTO dto) {
+        Favorite favorite = new Favorite();
+
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new RuntimeException("User not found"));
+        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new RuntimeException("Attraction is not found"));
+
+        favorite.setUser(user);
+        favorite.setAttraction(attraction);
+
         return favoriteRepository.save(favorite);
     }
 
-    public Favorite updateFavorite(Long id, Favorite favoriteDetails) {
-        Favorite favorite = favoriteRepository.findById(id).orElseThrow();
-        favorite.setUser(favoriteDetails.getUser());
-        favorite.setAttraction(favoriteDetails.getAttraction());
+    public Favorite updateFavorite(int id, FavoriteDTO dto) {
+        Favorite favorite = favoriteRepository.findById(id).orElseThrow(()->new RuntimeException("Favorite not found"));
+
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new RuntimeException("User not found"));
+        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new RuntimeException("Attraction is not found"));
+
+        favorite.setUser(user);
+        favorite.setAttraction(attraction);
+
         return favoriteRepository.save(favorite);
     }
 
-    public void deleteFavorite(Long id) {
+    public void deleteFavorite(int id) {
         favoriteRepository.deleteById(id);
     }
 }

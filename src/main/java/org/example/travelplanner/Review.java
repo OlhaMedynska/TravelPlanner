@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name="plans")
+@Table(name="reviews")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,7 +13,7 @@ import lombok.*;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     private int rating;
     private String comment;

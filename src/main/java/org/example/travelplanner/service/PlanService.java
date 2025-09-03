@@ -1,6 +1,6 @@
 package org.example.travelplanner.service;
 
-import org.example.travelplanner.entity.Plan;
+import org.example.travelplanner.Plan;
 import org.example.travelplanner.repository.PlanRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -18,7 +18,7 @@ public class PlanService {
         return planRepository.findAll();
     }
 
-    public Plan getPlanById(Long id) {
+    public Plan getPlanById(int id) {
         return planRepository.findById(id).orElse(null);
     }
 
@@ -26,7 +26,7 @@ public class PlanService {
         return planRepository.save(plan);
     }
 
-    public Plan updatePlan(Long id, Plan planDetails) {
+    public Plan updatePlan(int id, Plan planDetails) {
         Plan plan = planRepository.findById(id).orElseThrow();
         plan.setName(planDetails.getName());
         plan.setStartDate(planDetails.getStartDate());
@@ -36,7 +36,7 @@ public class PlanService {
         return planRepository.save(plan);
     }
 
-    public void deletePlan(Long id) {
+    public void deletePlan(int id) {
         planRepository.deleteById(id);
     }
 }
