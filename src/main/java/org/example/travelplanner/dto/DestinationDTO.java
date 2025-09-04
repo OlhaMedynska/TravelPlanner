@@ -5,10 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AttractionDTO {
+public class DestinationDTO {
     private String name;
-    private Double price;
+    private String country;
     private String description;
-    private int categoryId;
-    private int destinationId;
 }

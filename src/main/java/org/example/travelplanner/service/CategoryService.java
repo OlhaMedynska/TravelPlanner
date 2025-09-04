@@ -1,9 +1,11 @@
 package org.example.travelplanner.service;
 
-import org.example.travelplanner.Category;
+import org.example.travelplanner.dto.CategoryDTO;
+import org.example.travelplanner.entity.Category;
 import org.example.travelplanner.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -14,22 +16,42 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    private CategoryDTO toDTO(Category category) {
+        CategoryDTO dto = new CategoryDTO();
+        dto.setId(category.getId());
+        dto.setName(category.getName());
+        return dto;
     }
 
-    public Category getCategoryById(int id) {
-        return categoryRepository.findById(id).orElse(null);
+    private Category toEntity(CategoryDTO dto) {
+        Category category = new Category();
+        category.setId(dto.getId());
+        category.setName(dto.getName());
+        return category;
     }
 
-    public Category createCategory(Category category) {
-        return categoryRepository.save(category);
+    public List<CategoryDTO> getAllCategories() {
+        return categoryRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
-    public Category updateCategory(int id, Category categoryDetails) {
+    public CategoryDTO getCategoryById(int id) {
+        return categoryRepository.findById(id)
+                .map(this::toDTO)
+                .orElse(null);
+    }
+
+    public CategoryDTO createCategory(CategoryDTO dto) {
+        Category category = categoryRepository.save(toEntity(dto));
+        return toDTO(category);
+    }
+
+    public CategoryDTO updateCategory(int id, CategoryDTO dto) {
         Category category = categoryRepository.findById(id).orElseThrow();
-        category.setName(categoryDetails.getName());
-        return categoryRepository.save(category);
+        category.setName(dto.getName());
+        return toDTO(categoryRepository.save(category));
     }
 
     public void deleteCategory(int id) {

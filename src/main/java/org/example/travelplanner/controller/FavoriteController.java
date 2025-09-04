@@ -1,6 +1,6 @@
 package org.example.travelplanner.controller;
 
-import org.example.travelplanner.Favorite;
+import org.example.travelplanner.entity.Favorite;
 import org.example.travelplanner.dto.FavoriteDTO;
 import org.example.travelplanner.service.FavoriteService;
 import org.springframework.web.bind.annotation.*;

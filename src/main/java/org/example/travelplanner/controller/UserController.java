@@ -1,6 +1,6 @@
 package org.example.travelplanner.controller;
 
-import org.example.travelplanner.User;
+import org.example.travelplanner.dto.UserDTO;
 import org.example.travelplanner.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,23 +16,23 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable int id) {
+    public UserDTO getUserById(@PathVariable int id) {
         return userService.getUserById(id);
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public UserDTO createUser(@RequestBody UserDTO dto) {
+        return userService.createUser(dto);
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable int id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+    public UserDTO updateUser(@PathVariable int id, @RequestBody UserDTO dto) {
+        return userService.updateUser(id, dto);
     }
 
     @DeleteMapping("/{id}")

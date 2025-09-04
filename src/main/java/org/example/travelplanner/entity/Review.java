@@ -1,4 +1,4 @@
-package org.example.travelplanner;
+package org.example.travelplanner.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,6 +1,7 @@
 package org.example.travelplanner.controller;
 
-import org.example.travelplanner.Category;
+import org.example.travelplanner.dto.CategoryDTO;
+import org.example.travelplanner.entity.Category;
 import org.example.travelplanner.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -16,23 +17,23 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> getAll() {
+    public List<CategoryDTO> getAll() {
         return categoryService.getAllCategories();
     }
 
     @GetMapping("/{id}")
-    public Category getById(@PathVariable int id) {
+    public CategoryDTO getById(@PathVariable int id) {
         return categoryService.getCategoryById(id);
     }
 
     @PostMapping
-    public Category create(@RequestBody Category category) {
-        return categoryService.createCategory(category);
+    public CategoryDTO create(@RequestBody CategoryDTO dto) {
+        return categoryService.createCategory(dto);
     }
 
     @PutMapping("/{id}")
-    public Category update(@PathVariable int id, @RequestBody Category category) {
-        return categoryService.updateCategory(id, category);
+    public CategoryDTO update(@PathVariable int id, @RequestBody CategoryDTO dto) {
+        return categoryService.updateCategory(id, dto);
     }
 
     @DeleteMapping("/{id}")

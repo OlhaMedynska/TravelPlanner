@@ -1,8 +1,8 @@
 package org.example.travelplanner.service;
 
-import org.example.travelplanner.Attraction;
-import org.example.travelplanner.Favorite;
-import org.example.travelplanner.User;
+import org.example.travelplanner.entity.Attraction;
+import org.example.travelplanner.entity.Favorite;
+import org.example.travelplanner.entity.User;
 import org.example.travelplanner.dto.FavoriteDTO;
 import org.example.travelplanner.repository.AttractionRepository;
 import org.example.travelplanner.repository.FavoriteRepository;

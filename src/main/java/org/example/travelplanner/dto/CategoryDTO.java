@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FavoriteDTO {
-    private int userId;
-    private int attractionId;
+public class CategoryDTO {
+    private int id;
+    private String name;
 }

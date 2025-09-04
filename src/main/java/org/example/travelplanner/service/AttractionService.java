@@ -1,8 +1,8 @@
 package org.example.travelplanner.service;
 
-import org.example.travelplanner.Attraction;
-import org.example.travelplanner.Category;
-import org.example.travelplanner.Destination;
+import org.example.travelplanner.entity.Attraction;
+import org.example.travelplanner.entity.Category;
+import org.example.travelplanner.entity.Destination;
 import org.example.travelplanner.dto.AttractionDTO;
 import org.example.travelplanner.repository.AttractionRepository;
 import org.example.travelplanner.repository.CategoryRepository;

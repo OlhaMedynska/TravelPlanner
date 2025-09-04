@@ -1,6 +1,6 @@
 package org.example.travelplanner.controller;
 
-import org.example.travelplanner.Attraction;
+import org.example.travelplanner.entity.Attraction;
 import org.example.travelplanner.dto.AttractionDTO;
 import org.example.travelplanner.service.AttractionService;
 import org.springframework.web.bind.annotation.*;

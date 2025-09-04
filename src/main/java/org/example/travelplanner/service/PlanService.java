@@ -1,8 +1,8 @@
 package org.example.travelplanner.service;
 
-import org.example.travelplanner.Attraction;
-import org.example.travelplanner.Plan;
-import org.example.travelplanner.User;
+import org.example.travelplanner.entity.Attraction;
+import org.example.travelplanner.entity.Plan;
+import org.example.travelplanner.entity.User;
 import org.example.travelplanner.dto.PlanDTO;
 import org.example.travelplanner.repository.AttractionRepository;
 import org.example.travelplanner.repository.PlanRepository;
@@ -47,8 +47,8 @@ public class PlanService {
 
         if(dto.getAttractionIds() != null & !dto.getAttractionIds().isEmpty()) {
             Set<Attraction> attractions = dto.getAttractionIds().stream()
-                    .map(id -> attractionRepository.findById(id))
-                    .orElseThrow(() -> new RuntimeException("Attraction not found"))
+                    .map(id -> attractionRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Attraction not found")))
                     .collect(Collectors.toSet());
             plan.setAttractions(attractions);
         }
@@ -70,8 +70,8 @@ public class PlanService {
 
         if(dto.getAttractionIds() != null & !dto.getAttractionIds().isEmpty()) {
             Set<Attraction> attractions = dto.getAttractionIds().stream()
-                    .map(attractionId -> attractionRepository.findById(attractionId))
-                    .orElseThrow(() -> new RuntimeException("Attraction not found"))
+                    .map(attractionId -> attractionRepository.findById(attractionId)
+                    .orElseThrow(() -> new RuntimeException("Attraction not found")))
                     .collect(Collectors.toSet());
             plan.setAttractions(attractions);
         }
