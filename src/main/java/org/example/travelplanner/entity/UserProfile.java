@@ -1,5 +1,6 @@
 package org.example.travelplanner.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,5 +20,6 @@ public class UserProfile {
 
     @OneToOne
     @JoinColumn(name="user_id", unique = true)
+    @JsonBackReference
     private User user;
 }

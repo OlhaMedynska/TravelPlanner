@@ -2,6 +2,8 @@ package org.example.travelplanner.repository;
 
 import org.example.travelplanner.entity.UserProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public class UserProfileRepository  extends JpaRepository<UserProfile, Integer> {
+@Repository
+public interface UserProfileRepository  extends JpaRepository<UserProfile, Integer> {
 }

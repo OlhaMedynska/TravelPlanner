@@ -1,7 +1,9 @@
 package org.example.travelplanner.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.context.annotation.Profile;
 
 @Entity
 @Table(name = "users")
@@ -23,4 +25,8 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private UserProfile profile;
 }

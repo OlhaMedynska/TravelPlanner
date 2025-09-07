@@ -2,6 +2,7 @@ package org.example.travelplanner.service;
 
 import org.example.travelplanner.dto.UserDTO;
 import org.example.travelplanner.entity.User;
+import org.example.travelplanner.entity.UserProfile;
 import org.example.travelplanner.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,11 @@ public class UserService {
         dto.setUsername(user.getUsername());
         dto.setPassword(user.getPassword());
         dto.setEmail(user.getEmail());
+
+        if(user.getProfile() != null) {
+            dto.setAge(user.getProfile().getAge());
+            dto.setBio(user.getProfile().getBio());
+        }
         return dto;
     }
 
@@ -31,6 +37,15 @@ public class UserService {
         user.setUsername(dto.getUsername());
         user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
+
+        if(dto.getAge() != null || dto.getBio() != null){
+            UserProfile userProfile = new UserProfile();
+            userProfile.setAge(dto.getAge() != null ? dto.getAge() : 0);
+            userProfile.setBio(dto.getBio());
+            userProfile.setUser(user);
+            user.setProfile(userProfile);
+        }
+
         return user;
     }
 
@@ -57,6 +72,18 @@ public class UserService {
         user.setUsername(dto.getUsername());
         user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
+
+        if(user.getProfile() == null && (dto.getAge() != null || dto.getBio() != null)) {
+            UserProfile userProfile = new UserProfile();
+            userProfile.setAge(dto.getAge() != null ? dto.getAge() : 0);
+            userProfile.setBio(dto.getBio());
+            userProfile.setUser(user);
+            user.setProfile(userProfile);
+        } else if(user.getProfile() != null){
+            user.getProfile().setAge(dto.getAge() != null ? dto.getAge() : 0);
+            user.getProfile().setBio(dto.getBio());
+        }
+
         return toDTO(userRepository.save(user));
     }
 

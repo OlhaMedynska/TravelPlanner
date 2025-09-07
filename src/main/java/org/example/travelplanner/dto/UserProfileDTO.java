@@ -2,7 +2,11 @@ package org.example.travelplanner.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class UserProfileDTO {
     private int id;
 
@@ -13,5 +17,5 @@ public class UserProfileDTO {
     private String bio;
 
 //    id usera do kogo przepisuje profil
-    private int UserId;
+    private int userId;
 }
