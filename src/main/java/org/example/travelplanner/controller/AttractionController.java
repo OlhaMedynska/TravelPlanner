@@ -18,22 +18,22 @@ public class AttractionController {
     }
 
     @GetMapping
-    public List<Attraction> getAll() {
+    public List<AttractionDTO> getAll() {
         return attractionService.getAllAttractions();
     }
 
     @GetMapping("/{id}")
-    public Attraction getById(@PathVariable int id) {
+    public AttractionDTO getById(@PathVariable int id) {
         return attractionService.getAttractionById(id);
     }
 
     @PostMapping
-    public Attraction create(@RequestBody @Valid AttractionDTO dto) {
+    public AttractionDTO create(@RequestBody @Valid AttractionDTO dto) {
         return attractionService.createAttraction(dto);
     }
 
     @PutMapping("/{id}")
-    public Attraction update(@PathVariable int id, @RequestBody @Valid AttractionDTO dto) {
+    public AttractionDTO update(@PathVariable int id, @RequestBody @Valid AttractionDTO dto) {
         return attractionService.updateAttraction(id, dto);
     }
 

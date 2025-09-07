@@ -25,8 +25,13 @@ public class FavoriteService {
 
     private FavoriteDTO toDTO(Favorite favorite) {
         FavoriteDTO favoriteDTO = new FavoriteDTO();
-        favoriteDTO.setUserId(favorite.getUser().getId());
-        favoriteDTO.setAttractionId(favorite.getAttraction().getId());
+        if(favorite.getUser() != null) {
+            favoriteDTO.setUserId(favorite.getUser().getId());
+        }
+
+        if(favorite.getAttraction() != null) {
+            favoriteDTO.setAttractionId(favorite.getAttraction().getId());
+        }
         return favoriteDTO;
     }
 

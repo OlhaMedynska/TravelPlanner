@@ -9,6 +9,7 @@ import org.example.travelplanner.repository.ReviewRepository;
 import org.example.travelplanner.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewService {
@@ -26,7 +27,7 @@ public class ReviewService {
     public List<ReviewDTO> getAllReviews() {
         return reviewRepository.findAll().stream()
                 .map(this::toDTO)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     public ReviewDTO getReviewById(int id) {
@@ -67,8 +68,12 @@ public class ReviewService {
         ReviewDTO dto = new ReviewDTO();
         dto.setComment(review.getComment());
         dto.setRating(review.getRating());
-        dto.setUserId(review.getUser().getId());
-        dto.setAttractionId(review.getAttraction().getId());
+        if(review.getAttraction() != null) {
+            dto.setAttractionId(review.getAttraction().getId());
+        }
+        if(review.getUser() != null) {
+            dto.setUserId(review.getUser().getId());
+        }
         return dto;
     }
 

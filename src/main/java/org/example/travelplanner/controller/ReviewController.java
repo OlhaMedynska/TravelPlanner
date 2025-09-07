@@ -1,7 +1,6 @@
 package org.example.travelplanner.controller;
 
 import jakarta.validation.Valid;
-import org.example.travelplanner.entity.Review;
 import org.example.travelplanner.dto.ReviewDTO;
 import org.example.travelplanner.service.ReviewService;
 import org.springframework.web.bind.annotation.*;

@@ -18,22 +18,22 @@ public class DestinationController {
     }
 
     @GetMapping
-    public List<Destination> getAll() {
+    public List<DestinationDTO> getAll() {
         return destinationService.getAllDestinations();
     }
 
     @GetMapping("/{id}")
-    public Destination getById(@PathVariable int id) {
+    public DestinationDTO getById(@PathVariable int id) {
         return destinationService.getDestinationById(id);
     }
 
     @PostMapping
-    public Destination create(@RequestBody @Valid DestinationDTO dto) {
+    public DestinationDTO create(@RequestBody @Valid DestinationDTO dto) {
         return destinationService.createDestination(dto);
     }
 
     @PutMapping("/{id}")
-    public Destination update(@PathVariable int id, @RequestBody @Valid DestinationDTO dto) {
+    public DestinationDTO update(@PathVariable int id, @RequestBody @Valid DestinationDTO dto) {
         return destinationService.updateDestination(id, dto);
     }
 

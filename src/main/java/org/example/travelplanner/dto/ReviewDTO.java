@@ -19,8 +19,8 @@ public class ReviewDTO {
     private int rating;
 
     @Min(value = 1, message = "UserID must greater than 0")
-    private int userId;
+    private Integer userId;
 
     @Min(value = 1, message = "AttractionID must greater than 0")
-    private int attractionId;
+    private Integer attractionId;
 }

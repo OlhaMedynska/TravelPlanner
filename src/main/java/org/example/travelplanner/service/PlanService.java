@@ -79,7 +79,10 @@ public class PlanService {
         dto.setStartDate(plan.getStartDate());
         dto.setEndDate(plan.getEndDate());
         dto.setComment(plan.getComment());
-        dto.setUserId(plan.getUser().getId());
+
+        if(plan.getUser() != null) {
+            dto.setUserId(plan.getUser().getId());
+        }
 
         if(plan.getAttractions() != null && !plan.getAttractions().isEmpty()) {
             dto.setAttractionIds(plan.getAttractions().stream()

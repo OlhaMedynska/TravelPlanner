@@ -49,9 +49,10 @@ public class CategoryService {
     }
 
     public CategoryDTO updateCategory(int id, CategoryDTO dto) {
-        Category category = categoryRepository.findById(id).orElseThrow();
+        Category category = categoryRepository.findById(id).orElseThrow(()-> new RuntimeException("Category not found"));
         category.setName(dto.getName());
-        return toDTO(categoryRepository.save(category));
+        Category updatedCategory = categoryRepository.save(toEntity(dto));
+        return toDTO(updatedCategory);
     }
 
     public void deleteCategory(int id) {

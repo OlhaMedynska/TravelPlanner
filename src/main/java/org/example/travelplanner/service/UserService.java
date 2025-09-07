@@ -4,6 +4,7 @@ import org.example.travelplanner.dto.UserDTO;
 import org.example.travelplanner.entity.User;
 import org.example.travelplanner.entity.UserProfile;
 import org.example.travelplanner.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,16 +13,17 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     private UserDTO toDTO(User user) {
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
-        dto.setPassword(user.getPassword());
         dto.setEmail(user.getEmail());
 
         if(user.getProfile() != null) {
@@ -35,7 +37,9 @@ public class UserService {
         User user = new User();
         user.setId(dto.getId());
         user.setUsername(dto.getUsername());
-        user.setPassword(dto.getPassword());
+        if(dto.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
         user.setEmail(dto.getEmail());
 
         boolean hasProfileData = dto.getAge() != null || dto.getBio() != null && !dto.getBio().isEmpty();
@@ -72,7 +76,7 @@ public class UserService {
     public UserDTO updateUser(int id, UserDTO dto) {
         User user = userRepository.findById(id).orElseThrow();
         user.setUsername(dto.getUsername());
-        user.setPassword(dto.getPassword());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setEmail(dto.getEmail());
 
         boolean hasProfileData = (dto.getAge() != null || dto.getBio() != null && !dto.getBio().isEmpty());
@@ -93,5 +97,16 @@ public class UserService {
 
     public void deleteUser(int id) {
         userRepository.deleteById(id);
+    }
+
+    public UserDTO login(String username, String password) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(()->new RuntimeException("Invalid username or password"));
+
+        if(!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Invalid password or username");
+        }
+
+        return toDTO(user);
     }
 }
