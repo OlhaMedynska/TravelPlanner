@@ -1,5 +1,6 @@
 package org.example.travelplanner.controller;
 
+import jakarta.validation.Valid;
 import org.example.travelplanner.entity.Review;
 import org.example.travelplanner.dto.ReviewDTO;
 import org.example.travelplanner.service.ReviewService;
@@ -27,12 +28,12 @@ public class ReviewController {
     }
 
     @PostMapping
-    public Review create(@RequestBody ReviewDTO dto) {
+    public Review create(@RequestBody @Valid ReviewDTO dto) {
         return reviewService.createReview(dto);
     }
 
     @PutMapping("/{id}")
-    public Review update(@PathVariable int id, @RequestBody ReviewDTO dto) {
+    public Review update(@PathVariable int id, @RequestBody @Valid ReviewDTO dto) {
         return reviewService.updateReview(id, dto);
     }
 

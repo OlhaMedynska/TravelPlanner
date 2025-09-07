@@ -1,5 +1,6 @@
 package org.example.travelplanner.controller;
 
+import jakarta.validation.Valid;
 import org.example.travelplanner.entity.Favorite;
 import org.example.travelplanner.dto.FavoriteDTO;
 import org.example.travelplanner.service.FavoriteService;
@@ -27,12 +28,12 @@ public class FavoriteController {
     }
 
     @PostMapping
-    public Favorite create(@RequestBody FavoriteDTO dto) {
+    public Favorite create(@RequestBody @Valid FavoriteDTO dto) {
         return favoriteService.createFavorite(dto);
     }
 
     @PutMapping("/{id}")
-    public Favorite update(@PathVariable int id, @RequestBody FavoriteDTO dto) {
+    public Favorite update(@PathVariable int id, @RequestBody @Valid FavoriteDTO dto) {
         return favoriteService.updateFavorite(id, dto);
     }
 

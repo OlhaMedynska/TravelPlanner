@@ -1,5 +1,6 @@
 package org.example.travelplanner.controller;
 
+import jakarta.validation.Valid;
 import org.example.travelplanner.dto.UserDTO;
 import org.example.travelplanner.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +27,12 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDTO createUser(@RequestBody UserDTO dto) {
+    public UserDTO createUser(@RequestBody @Valid UserDTO dto) {
         return userService.createUser(dto);
     }
 
     @PutMapping("/{id}")
-    public UserDTO updateUser(@PathVariable int id, @RequestBody UserDTO dto) {
+    public UserDTO updateUser(@PathVariable int id, @RequestBody @Valid UserDTO dto) {
         return userService.updateUser(id, dto);
     }
 

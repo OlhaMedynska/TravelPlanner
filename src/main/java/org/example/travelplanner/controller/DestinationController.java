@@ -1,5 +1,6 @@
 package org.example.travelplanner.controller;
 
+import jakarta.validation.Valid;
 import org.example.travelplanner.dto.DestinationDTO;
 import org.example.travelplanner.entity.Destination;
 import org.example.travelplanner.service.DestinationService;
@@ -27,12 +28,12 @@ public class DestinationController {
     }
 
     @PostMapping
-    public Destination create(@RequestBody DestinationDTO dto) {
+    public Destination create(@RequestBody @Valid DestinationDTO dto) {
         return destinationService.createDestination(dto);
     }
 
     @PutMapping("/{id}")
-    public Destination update(@PathVariable int id, @RequestBody DestinationDTO dto) {
+    public Destination update(@PathVariable int id, @RequestBody @Valid DestinationDTO dto) {
         return destinationService.updateDestination(id, dto);
     }
 
