@@ -18,22 +18,22 @@ public class UserProfileController {
     }
 
     @GetMapping
-    public List<UserProfile> getUserProfiles() {
+    public List<UserProfileDTO> getUserProfiles() {
         return userProfileService.getAllProfiles();
     }
 
     @GetMapping("/{id}")
-    public UserProfile getById(@PathVariable int id) {
+    public UserProfileDTO getById(@PathVariable int id) {
         return userProfileService.getProfileById(id);
     }
 
     @PostMapping
-    public UserProfile create(@Valid @RequestBody UserProfileDTO dto) {
+    public UserProfileDTO create(@Valid @RequestBody UserProfileDTO dto) {
         return userProfileService.createProfile(dto);
     }
 
     @PutMapping("/{id}")
-    public UserProfile update(@PathVariable int id, @Valid @RequestBody UserProfileDTO dto) {
+    public UserProfileDTO update(@PathVariable int id, @Valid @RequestBody UserProfileDTO dto) {
         return userProfileService.updateProfile(id, dto);
     }
 

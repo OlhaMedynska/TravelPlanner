@@ -18,22 +18,22 @@ public class FavoriteController {
     }
 
     @GetMapping
-    public List<Favorite> getAll() {
+    public List<FavoriteDTO> getAll() {
         return favoriteService.getAllFavorites();
     }
 
     @GetMapping("/{id}")
-    public Favorite getById(@PathVariable int id) {
+    public FavoriteDTO getById(@PathVariable int id) {
         return favoriteService.getFavoriteById(id);
     }
 
     @PostMapping
-    public Favorite create(@RequestBody @Valid FavoriteDTO dto) {
+    public FavoriteDTO create(@RequestBody @Valid FavoriteDTO dto) {
         return favoriteService.createFavorite(dto);
     }
 
     @PutMapping("/{id}")
-    public Favorite update(@PathVariable int id, @RequestBody @Valid FavoriteDTO dto) {
+    public FavoriteDTO update(@PathVariable int id, @RequestBody @Valid FavoriteDTO dto) {
         return favoriteService.updateFavorite(id, dto);
     }
 

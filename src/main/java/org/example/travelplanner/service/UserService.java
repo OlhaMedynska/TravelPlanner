@@ -38,7 +38,9 @@ public class UserService {
         user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
 
-        if(dto.getAge() != null || dto.getBio() != null){
+        boolean hasProfileData = dto.getAge() != null || dto.getBio() != null && !dto.getBio().isEmpty();
+
+        if(hasProfileData){
             UserProfile userProfile = new UserProfile();
             userProfile.setAge(dto.getAge() != null ? dto.getAge() : 0);
             userProfile.setBio(dto.getBio());
@@ -73,7 +75,9 @@ public class UserService {
         user.setPassword(dto.getPassword());
         user.setEmail(dto.getEmail());
 
-        if(user.getProfile() == null && (dto.getAge() != null || dto.getBio() != null)) {
+        boolean hasProfileData = (dto.getAge() != null || dto.getBio() != null && !dto.getBio().isEmpty());
+
+        if(user.getProfile() == null && hasProfileData) {
             UserProfile userProfile = new UserProfile();
             userProfile.setAge(dto.getAge() != null ? dto.getAge() : 0);
             userProfile.setBio(dto.getBio());

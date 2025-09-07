@@ -23,31 +23,28 @@ public class ReviewService {
         this.attractionRepository = attractionRepository;
     }
 
-    public List<Review> getAllReviews() {
-        return reviewRepository.findAll();
+    public List<ReviewDTO> getAllReviews() {
+        return reviewRepository.findAll().stream()
+                .map(this::toDTO)
+                .toList();
     }
 
-    public Review getReviewById(int id) {
-        return reviewRepository.findById(id).orElse(null);
+    public ReviewDTO getReviewById(int id) {
+        return reviewRepository.findById(id)
+                .map(this::toDTO)
+                .orElse(null);
     }
 
-    public Review createReview(ReviewDTO dto) {
-        Review review = new Review();
+    public ReviewDTO createReview(ReviewDTO dto) {
+        Review review = toEntity(dto);
 
-        review.setComment(dto.getComment());
-        review.setRating(dto.getRating());
-
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new RuntimeException("User not found"));
-        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new RuntimeException("Attraction is not found"));
-
-        review.setUser(user);
-        review.setAttraction(attraction);
-
-        return reviewRepository.save(review);
+        Review savedReview = reviewRepository.save(review);
+        return toDTO(savedReview);
     }
 
-    public Review updateReview(int id, ReviewDTO dto) {
-        Review review = reviewRepository.findById(id).orElseThrow(()-> new RuntimeException("Review not found"));
+    public ReviewDTO updateReview(int id, ReviewDTO dto) {
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Review not found"));
 
         review.setComment(dto.getComment());
         review.setRating(dto.getRating());
@@ -58,10 +55,34 @@ public class ReviewService {
         review.setUser(user);
         review.setAttraction(attraction);
 
-        return reviewRepository.save(review);
+        Review savedReview = reviewRepository.save(review);
+        return toDTO(savedReview);
     }
 
     public void deleteReview(int id) {
         reviewRepository.deleteById(id);
+    }
+
+    private ReviewDTO toDTO(Review review) {
+        ReviewDTO dto = new ReviewDTO();
+        dto.setComment(review.getComment());
+        dto.setRating(review.getRating());
+        dto.setUserId(review.getUser().getId());
+        dto.setAttractionId(review.getAttraction().getId());
+        return dto;
+    }
+
+    private Review toEntity(ReviewDTO dto) {
+        Review review = new Review();
+        review.setComment(dto.getComment());
+        review.setRating(dto.getRating());
+
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new RuntimeException("User not found"));
+        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new RuntimeException("Attraction not found"));
+
+        review.setUser(user);
+        review.setAttraction(attraction);
+
+        return review;
     }
 }

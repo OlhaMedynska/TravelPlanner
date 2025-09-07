@@ -18,22 +18,22 @@ public class ReviewController {
     }
 
     @GetMapping
-    public List<Review> getAll() {
+    public List<ReviewDTO> getAll() {
         return reviewService.getAllReviews();
     }
 
     @GetMapping("/{id}")
-    public Review getById(@PathVariable int id) {
+    public ReviewDTO getById(@PathVariable int id) {
         return reviewService.getReviewById(id);
     }
 
     @PostMapping
-    public Review create(@RequestBody @Valid ReviewDTO dto) {
+    public ReviewDTO create(@RequestBody @Valid ReviewDTO dto) {
         return reviewService.createReview(dto);
     }
 
     @PutMapping("/{id}")
-    public Review update(@PathVariable int id, @RequestBody @Valid ReviewDTO dto) {
+    public ReviewDTO update(@PathVariable int id, @RequestBody @Valid ReviewDTO dto) {
         return reviewService.updateReview(id, dto);
     }
 

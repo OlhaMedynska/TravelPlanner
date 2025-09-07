@@ -18,22 +18,22 @@ public class PlanController {
     }
 
     @GetMapping
-    public List<Plan> getAll() {
+    public List<PlanDTO> getAll() {
         return planService.getAllPlans();
     }
 
     @GetMapping("/{id}")
-    public Plan getById(@PathVariable int id) {
+    public PlanDTO getById(@PathVariable int id) {
         return planService.getPlanById(id);
     }
 
     @PostMapping
-    public Plan create(@RequestBody @Valid PlanDTO dto) {
+    public PlanDTO create(@RequestBody @Valid PlanDTO dto) {
         return planService.createPlan(dto);
     }
 
     @PutMapping("/{id}")
-    public Plan update(@PathVariable int id, @RequestBody @Valid PlanDTO dto) {
+    public PlanDTO update(@PathVariable int id, @RequestBody @Valid PlanDTO dto) {
         return planService.updatePlan(id, dto);
     }
 
