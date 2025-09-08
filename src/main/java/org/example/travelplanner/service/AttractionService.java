@@ -86,4 +86,13 @@ public class AttractionService {
     public void deleteAttraction(int id) {
         attractionRepository.deleteById(id);
     }
+
+    public List<AttractionDTO> getAttractionsByDestinationId(int destinationId) {
+        destinationService.getDestinationEntityById(destinationId);
+
+        return attractionRepository.findByDestinationId(destinationId)
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
 }

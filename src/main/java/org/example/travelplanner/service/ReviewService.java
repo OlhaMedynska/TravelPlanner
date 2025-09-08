@@ -37,6 +37,7 @@ public class ReviewService {
     }
 
     public ReviewDTO createReview(ReviewDTO dto) {
+        validateRating(dto.getRating());
         Review review = toEntity(dto);
 
         Review savedReview = reviewRepository.save(review);
@@ -44,6 +45,7 @@ public class ReviewService {
     }
 
     public ReviewDTO updateReview(int id, ReviewDTO dto) {
+        validateRating(dto.getRating());
         Review review = reviewRepository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Review not found"));
 
@@ -89,5 +91,11 @@ public class ReviewService {
         review.setAttraction(attraction);
 
         return review;
+    }
+
+    private void validateRating(int rating) {
+        if(rating < 1 || rating > 5) {
+            throw new RuntimeException("Rating must be between 1 and 5");
+        }
     }
 }

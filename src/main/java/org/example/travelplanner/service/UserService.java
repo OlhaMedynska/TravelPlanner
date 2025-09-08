@@ -69,6 +69,7 @@ public class UserService {
     }
 
     public UserDTO createUser(UserDTO dto) {
+        validateUniqueUser(dto);
         User savedUser = userRepository.save(toEntity(dto));
         return toDTO(savedUser);
     }
@@ -108,5 +109,15 @@ public class UserService {
         }
 
         return toDTO(user);
+    }
+
+    private void validateUniqueUser(UserDTO dto) {
+        if(userRepository.findByUsername(dto.getUsername()).isPresent()) {
+            throw new RuntimeException("User name already exists");
+        }
+
+        if(userRepository.findByEmail(dto.getEmail()).isPresent()){
+            throw new RuntimeException("Email already exists");
+        }
     }
 }

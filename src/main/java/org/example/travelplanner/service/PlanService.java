@@ -41,11 +41,13 @@ public class PlanService {
     }
 
     public PlanDTO createPlan(PlanDTO dto) {
+        validatePlanDates(dto);
         Plan saved = planRepository.save(toEntity(dto));
         return toDTO(saved);
     }
 
     public PlanDTO updatePlan(int id, PlanDTO dto) {
+        validatePlanDates(dto);
         Plan plan = planRepository.findById(id).orElseThrow(()->new RuntimeException("Plan not found"));
 
         plan.setName(dto.getName());
@@ -111,5 +113,11 @@ public class PlanService {
             plan.setAttractions(attractions);
         }
         return plan;
+    }
+
+    private void validatePlanDates(PlanDTO dto){
+        if(dto.getStartDate().isAfter(dto.getEndDate())) {
+            throw new RuntimeException("Start date cannot be after end date");
+        }
     }
 }

@@ -3,7 +3,10 @@ package org.example.travelplanner.service;
 import org.example.travelplanner.dto.DestinationDTO;
 import org.example.travelplanner.entity.Destination;
 import org.example.travelplanner.repository.DestinationRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +33,11 @@ public class DestinationService {
         destination.setDescription(destinationDTO.getDescription());
         destination.setCountry(destinationDTO.getCountry());
         return destination;
+    }
+
+//    zwraca obiekt destination jesli istnieje albo wyjatek jak nie(dla dest+atrakcje)
+    public Destination getDestinationEntityById(int id){
+        return destinationRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Destination not found"));
     }
 
     public List<DestinationDTO> getAllDestinations() {
@@ -61,5 +69,31 @@ public class DestinationService {
 
     public void deleteDestination(int id) {
         destinationRepository.deleteById(id);
+    }
+
+    public List<DestinationDTO> searchDestinationsByName(String name) {
+        List<DestinationDTO> results = destinationRepository
+                .findByNameContainingIgnoreCase(name)
+                .stream()
+                .map(this::toDTO)
+                .toList();
+
+        if (results.isEmpty()) {
+            System.out.println("No destination found for: " + name);
+        }
+        return results;
+    }
+
+    public List<DestinationDTO> searchDestinationsByCountry(String country) {
+        List<DestinationDTO> results = destinationRepository
+                .findByCountryContainingIgnoreCase(country)
+                .stream()
+                .map(this::toDTO)
+                .toList();
+
+        if (results.isEmpty()) {
+            System.out.println("No destination found for: " + country);
+        }
+        return results;
     }
 }
