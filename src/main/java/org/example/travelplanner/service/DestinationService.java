@@ -3,10 +3,12 @@ package org.example.travelplanner.service;
 import org.example.travelplanner.dto.DestinationDTO;
 import org.example.travelplanner.entity.Destination;
 import org.example.travelplanner.repository.DestinationRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,11 +42,9 @@ public class DestinationService {
         return destinationRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Destination not found"));
     }
 
-    public List<DestinationDTO> getAllDestinations() {
-        return destinationRepository.findAll()
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+    public Page<DestinationDTO> getAllDestinations(Pageable pageable) {
+        return destinationRepository.findAll(pageable)
+                .map(this::toDTO);
     }
 
     public DestinationDTO getDestinationById(int id) {
@@ -71,12 +71,10 @@ public class DestinationService {
         destinationRepository.deleteById(id);
     }
 
-    public List<DestinationDTO> searchDestinationsByName(String name) {
-        List<DestinationDTO> results = destinationRepository
-                .findByNameContainingIgnoreCase(name)
-                .stream()
-                .map(this::toDTO)
-                .toList();
+    public Page<DestinationDTO> searchDestinationsByName(String name, Pageable pageable) {
+        Page<DestinationDTO> results = destinationRepository
+                .findByNameContainingIgnoreCase(name, pageable)
+                .map(this::toDTO);
 
         if (results.isEmpty()) {
             System.out.println("No destination found for: " + name);
@@ -84,12 +82,10 @@ public class DestinationService {
         return results;
     }
 
-    public List<DestinationDTO> searchDestinationsByCountry(String country) {
-        List<DestinationDTO> results = destinationRepository
-                .findByCountryContainingIgnoreCase(country)
-                .stream()
-                .map(this::toDTO)
-                .toList();
+    public Page<DestinationDTO> searchDestinationsByCountry(String country, Pageable pageable) {
+        Page<DestinationDTO> results = destinationRepository
+                .findByCountryContainingIgnoreCase(country, pageable)
+                .map(this::toDTO);
 
         if (results.isEmpty()) {
             System.out.println("No destination found for: " + country);

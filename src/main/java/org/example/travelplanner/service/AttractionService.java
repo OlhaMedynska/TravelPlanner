@@ -7,7 +7,10 @@ import org.example.travelplanner.dto.AttractionDTO;
 import org.example.travelplanner.repository.AttractionRepository;
 import org.example.travelplanner.repository.CategoryRepository;
 import org.example.travelplanner.repository.DestinationRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,12 +90,10 @@ public class AttractionService {
         attractionRepository.deleteById(id);
     }
 
-    public List<AttractionDTO> getAttractionsByDestinationId(int destinationId) {
+    public Page<AttractionDTO> getAttractionsByDestinationId(int destinationId, Pageable pageable) {
         destinationService.getDestinationEntityById(destinationId);
 
-        return attractionRepository.findByDestinationId(destinationId)
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
+        return attractionRepository.findByDestinationId(destinationId, pageable)
+                .map(this::toDTO);
     }
 }
