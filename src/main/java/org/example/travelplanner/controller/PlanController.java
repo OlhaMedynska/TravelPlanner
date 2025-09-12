@@ -41,4 +41,10 @@ public class PlanController {
     public void delete(@PathVariable int id) {
         planService.deletePlan(id);
     }
+
+    @GetMapping("/user/{userId}")
+    public List<PlanDTO> getByUserId(@PathVariable int userId) {
+        return planService.getPlansByUserId(userId);
+    }
+
 }

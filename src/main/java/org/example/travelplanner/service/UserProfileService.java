@@ -3,6 +3,7 @@ package org.example.travelplanner.service;
 import org.example.travelplanner.dto.UserProfileDTO;
 import org.example.travelplanner.entity.User;
 import org.example.travelplanner.entity.UserProfile;
+import org.example.travelplanner.exception.ResourceNotFoundException;
 import org.example.travelplanner.repository.UserProfileRepository;
 import org.example.travelplanner.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class UserProfileService {
 
     public UserProfileDTO createProfile(UserProfileDTO dto) {
         User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(()-> new RuntimeException("User not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("User not found"));
 
         UserProfile profile = toEntity(dto);
         profile.setUser(user);
@@ -45,7 +46,7 @@ public class UserProfileService {
     }
 
     public UserProfileDTO updateProfile(int id, UserProfileDTO dto) {
-        UserProfile profile = userProfileRepository.findById(id).orElseThrow(()-> new RuntimeException("Profile not found"));
+        UserProfile profile = userProfileRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Profile not found"));
 
         profile.setAge(dto.getAge());
         profile.setBio(dto.getBio());

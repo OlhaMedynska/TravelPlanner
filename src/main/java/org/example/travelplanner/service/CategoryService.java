@@ -2,6 +2,7 @@ package org.example.travelplanner.service;
 
 import org.example.travelplanner.dto.CategoryDTO;
 import org.example.travelplanner.entity.Category;
+import org.example.travelplanner.exception.ResourceNotFoundException;
 import org.example.travelplanner.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -49,7 +50,7 @@ public class CategoryService {
     }
 
     public CategoryDTO updateCategory(int id, CategoryDTO dto) {
-        Category category = categoryRepository.findById(id).orElseThrow(()-> new RuntimeException("Category not found"));
+        Category category = categoryRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Category not found"));
         category.setName(dto.getName());
         Category updatedCategory = categoryRepository.save(toEntity(dto));
         return toDTO(updatedCategory);

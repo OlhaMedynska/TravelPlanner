@@ -3,6 +3,8 @@ package org.example.travelplanner.service;
 import org.example.travelplanner.dto.UserDTO;
 import org.example.travelplanner.entity.User;
 import org.example.travelplanner.entity.UserProfile;
+import org.example.travelplanner.exception.BadRequestException;
+import org.example.travelplanner.exception.ConflictException;
 import org.example.travelplanner.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -102,10 +104,10 @@ public class UserService {
 
     public UserDTO login(String username, String password) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(()->new RuntimeException("Invalid username or password"));
+                .orElseThrow(()->new BadRequestException("Invalid username or password"));
 
         if(!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid password or username");
+            throw new BadRequestException("Invalid password or username");
         }
 
         return toDTO(user);
@@ -113,11 +115,11 @@ public class UserService {
 
     private void validateUniqueUser(UserDTO dto) {
         if(userRepository.findByUsername(dto.getUsername()).isPresent()) {
-            throw new RuntimeException("User name already exists");
+            throw new ConflictException("User name already exists");
         }
 
         if(userRepository.findByEmail(dto.getEmail()).isPresent()){
-            throw new RuntimeException("Email already exists");
+            throw new ConflictException("Email already exists");
         }
     }
 }

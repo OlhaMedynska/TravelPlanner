@@ -4,6 +4,8 @@ import org.example.travelplanner.entity.Attraction;
 import org.example.travelplanner.entity.Review;
 import org.example.travelplanner.entity.User;
 import org.example.travelplanner.dto.ReviewDTO;
+import org.example.travelplanner.exception.BadRequestException;
+import org.example.travelplanner.exception.ResourceNotFoundException;
 import org.example.travelplanner.repository.AttractionRepository;
 import org.example.travelplanner.repository.ReviewRepository;
 import org.example.travelplanner.repository.UserRepository;
@@ -47,13 +49,13 @@ public class ReviewService {
     public ReviewDTO updateReview(int id, ReviewDTO dto) {
         validateRating(dto.getRating());
         Review review = reviewRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Review not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Review not found"));
 
         review.setComment(dto.getComment());
         review.setRating(dto.getRating());
 
-        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new RuntimeException("Attraction is not found"));
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new RuntimeException("User not found"));
+        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new ResourceNotFoundException("Attraction is not found"));
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new ResourceNotFoundException("User not found"));
 
         review.setUser(user);
         review.setAttraction(attraction);
@@ -84,8 +86,8 @@ public class ReviewService {
         review.setComment(dto.getComment());
         review.setRating(dto.getRating());
 
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new RuntimeException("User not found"));
-        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new RuntimeException("Attraction not found"));
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new ResourceNotFoundException("User not found"));
+        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new ResourceNotFoundException("Attraction not found"));
 
         review.setUser(user);
         review.setAttraction(attraction);
@@ -95,7 +97,7 @@ public class ReviewService {
 
     private void validateRating(int rating) {
         if(rating < 1 || rating > 5) {
-            throw new RuntimeException("Rating must be between 1 and 5");
+            throw new BadRequestException("Rating must be between 1 and 5");
         }
     }
 }

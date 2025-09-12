@@ -4,6 +4,7 @@ import org.example.travelplanner.entity.Attraction;
 import org.example.travelplanner.entity.Category;
 import org.example.travelplanner.entity.Destination;
 import org.example.travelplanner.dto.AttractionDTO;
+import org.example.travelplanner.exception.ResourceNotFoundException;
 import org.example.travelplanner.repository.AttractionRepository;
 import org.example.travelplanner.repository.CategoryRepository;
 import org.example.travelplanner.repository.DestinationRepository;
@@ -35,8 +36,8 @@ public class AttractionService {
         attraction.setDescription(dto.getDescription());
         attraction.setPrice(dto.getPrice());
 
-        Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(()->new RuntimeException("Category not found"));
-        Destination destination = destinationRepository.findById(dto.getDestinationId()).orElseThrow(()->new RuntimeException("Destination not found"));
+        Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(()->new ResourceNotFoundException("Category not found"));
+        Destination destination = destinationRepository.findById(dto.getDestinationId()).orElseThrow(()->new ResourceNotFoundException("Destination not found"));
 
         attraction.setCategory(category);
         attraction.setDestination(destination);
@@ -77,7 +78,7 @@ public class AttractionService {
     }
 
     public AttractionDTO updateAttraction(int id, AttractionDTO dto) {
-        attractionRepository.findById(id).orElseThrow(()->new RuntimeException("Attraction not found"));
+        attractionRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Attraction not found"));
 
         Attraction attraction = toEntity(dto);
         attraction.setId(id);

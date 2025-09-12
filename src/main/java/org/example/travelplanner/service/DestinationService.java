@@ -2,6 +2,7 @@ package org.example.travelplanner.service;
 
 import org.example.travelplanner.dto.DestinationDTO;
 import org.example.travelplanner.entity.Destination;
+import org.example.travelplanner.exception.ResourceNotFoundException;
 import org.example.travelplanner.repository.DestinationRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -9,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import org.springframework.data.domain.Pageable;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class DestinationService {
@@ -59,7 +58,7 @@ public class DestinationService {
     }
 
     public DestinationDTO updateDestination(int id, DestinationDTO dto) {
-        Destination destination = destinationRepository.findById(id).orElseThrow(()->new RuntimeException("Destination not found"));
+        Destination destination = destinationRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Destination not found"));
         destination.setName(dto.getName());
         destination.setCountry(dto.getCountry());
         destination.setDescription(dto.getDescription());
