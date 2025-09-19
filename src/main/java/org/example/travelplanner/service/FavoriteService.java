@@ -9,6 +9,7 @@ import org.example.travelplanner.repository.AttractionRepository;
 import org.example.travelplanner.repository.FavoriteRepository;
 import org.example.travelplanner.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -26,11 +27,11 @@ public class FavoriteService {
 
     private FavoriteDTO toDTO(Favorite favorite) {
         FavoriteDTO favoriteDTO = new FavoriteDTO();
-        if(favorite.getUser() != null) {
+        if (favorite.getUser() != null) {
             favoriteDTO.setUserId(favorite.getUser().getId());
         }
 
-        if(favorite.getAttraction() != null) {
+        if (favorite.getAttraction() != null) {
             favoriteDTO.setAttractionId(favorite.getAttraction().getId());
         }
         return favoriteDTO;
@@ -38,8 +39,8 @@ public class FavoriteService {
 
     private Favorite toEntity(FavoriteDTO dto) {
         Favorite favorite = new Favorite();
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new ResourceNotFoundException("User not found"));
-        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new ResourceNotFoundException("Attraction is not found"));
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(() -> new ResourceNotFoundException("Attraction is not found"));
 
         favorite.setUser(user);
         favorite.setAttraction(attraction);
@@ -65,11 +66,11 @@ public class FavoriteService {
     }
 
     public FavoriteDTO updateFavorite(int id, FavoriteDTO dto) {
-        Favorite favorite = favoriteRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Favorite not found"));
+        Favorite favorite = favoriteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Favorite not found"));
 
-        favorite.setUser(userRepository.findById(dto.getUserId()).orElseThrow(()->new ResourceNotFoundException("User not found")));
+        favorite.setUser(userRepository.findById(dto.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found")));
         favorite.setAttraction(attractionRepository.findById(dto.getAttractionId())
-                .orElseThrow(()->new ResourceNotFoundException("Attraction is not found")));
+                .orElseThrow(() -> new ResourceNotFoundException("Attraction is not found")));
 
         Favorite saved = favoriteRepository.save(favorite);
         return toDTO(saved);

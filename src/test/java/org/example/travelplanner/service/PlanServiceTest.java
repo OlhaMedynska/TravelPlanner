@@ -1,4 +1,5 @@
 package org.example.travelplanner.service;
+
 import org.example.travelplanner.dto.PlanDTO;
 import org.example.travelplanner.entity.Attraction;
 import org.example.travelplanner.entity.Plan;
@@ -8,9 +9,11 @@ import org.example.travelplanner.repository.PlanRepository;
 import org.example.travelplanner.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -19,6 +22,7 @@ class PlanServiceTest {
     private UserRepository userRepository;
     private AttractionRepository attractionRepository;
     private PlanService planService;
+
     @BeforeEach
     void setUp() {
         planRepository = mock(PlanRepository.class);
@@ -26,6 +30,7 @@ class PlanServiceTest {
         attractionRepository = mock(AttractionRepository.class);
         planService = new PlanService(planRepository, userRepository, attractionRepository);
     }
+
     @Test
     void createPlan_ShouldSavePlan() {
         User user = new User();
@@ -41,6 +46,7 @@ class PlanServiceTest {
         assertEquals("Trip", saved.getName());
         assertEquals(1, saved.getUserId());
     }
+
     @Test
     void createPlan_ShouldThrow_WhenStartAfterEnd() {
         PlanDTO dto = new PlanDTO();
@@ -49,6 +55,7 @@ class PlanServiceTest {
         Exception ex = assertThrows(RuntimeException.class, () -> planService.createPlan(dto));
         assertEquals("Start date cannot be after end date", ex.getMessage());
     }
+
     @Test
     void updatePlan_ShouldUpdateExisting() {
         User user = new User();
@@ -75,6 +82,7 @@ class PlanServiceTest {
         assertEquals(1, updated.getUserId());
         assertTrue(updated.getAttractionIds().contains(2));
     }
+
     @Test
     void deletePlan_ShouldCallRepository() {
         doNothing().when(planRepository).deleteById(1);

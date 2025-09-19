@@ -1,4 +1,5 @@
 package org.example.travelplanner.controller;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.travelplanner.dto.PlanDTO;
 import org.example.travelplanner.service.PlanService;
@@ -8,9 +9,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -25,6 +28,7 @@ class PlanControllerTest {
     private ObjectMapper objectMapper;
     @MockitoBean
     private PlanService planService;
+
     @Test
     void getAll_ShouldReturnList() throws Exception {
         PlanDTO dto = new PlanDTO();
@@ -34,6 +38,7 @@ class PlanControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value("Trip"));
     }
+
     @Test
     void getById_ShouldReturnPlan() throws Exception {
         PlanDTO dto = new PlanDTO();
@@ -43,6 +48,7 @@ class PlanControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Trip"));
     }
+
     @Test
     void create_ShouldReturnSavedPlan() throws Exception {
         PlanDTO dto = new PlanDTO();
@@ -59,6 +65,7 @@ class PlanControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Trip"));
     }
+
     @Test
     void update_ShouldReturnUpdatedPlan() throws Exception {
         PlanDTO dto = new PlanDTO();
@@ -74,6 +81,7 @@ class PlanControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Updated"));
     }
+
     @Test
     void delete_ShouldReturnOk() throws Exception {
         doNothing().when(planService).deletePlan(1);

@@ -5,6 +5,7 @@ import org.example.travelplanner.entity.Plan;
 import org.example.travelplanner.dto.PlanDTO;
 import org.example.travelplanner.service.PlanService;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -46,5 +47,4 @@ public class PlanController {
     public List<PlanDTO> getByUserId(@PathVariable int userId) {
         return planService.getPlansByUserId(userId);
     }
-
 }

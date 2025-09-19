@@ -21,45 +21,6 @@ public class UserProfileService {
         this.userRepository = userRepository;
     }
 
-    public List<UserProfileDTO> getAllProfiles() {
-        return userProfileRepository.findAll()
-                .stream()
-                .map(this::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    public UserProfileDTO getProfileById(int id) {
-        return userProfileRepository.findById(id)
-                .map(this::toDTO)
-                .orElse(null);
-    }
-
-    public UserProfileDTO createProfile(UserProfileDTO dto) {
-        User user = userRepository.findById(dto.getUserId())
-                .orElseThrow(()-> new ResourceNotFoundException("User not found"));
-
-        UserProfile profile = toEntity(dto);
-        profile.setUser(user);
-
-        UserProfile savedProfile = userProfileRepository.save(profile);
-        return toDTO(savedProfile);
-    }
-
-    public UserProfileDTO updateProfile(int id, UserProfileDTO dto) {
-        UserProfile profile = userProfileRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Profile not found"));
-
-        profile.setAge(dto.getAge());
-        profile.setBio(dto.getBio());
-
-        UserProfile updatedProfile = userProfileRepository.save(profile);
-        return toDTO(updatedProfile);
-    }
-
-    public void deleteProfile(int id) {
-        userProfileRepository.deleteById(id);
-    }
-
-
     private UserProfileDTO toDTO(UserProfile profile) {
         UserProfileDTO dto = new UserProfileDTO();
         dto.setId(profile.getId());
@@ -75,4 +36,44 @@ public class UserProfileService {
         profile.setBio(dto.getBio());
         return profile;
     }
+
+    public List<UserProfileDTO> getAllProfiles() {
+        return userProfileRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public UserProfileDTO getProfileById(int id) {
+        return userProfileRepository.findById(id)
+                .map(this::toDTO)
+                .orElse(null);
+    }
+
+    public UserProfileDTO createProfile(UserProfileDTO dto) {
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        UserProfile profile = toEntity(dto);
+        profile.setUser(user);
+
+        UserProfile savedProfile = userProfileRepository.save(profile);
+        return toDTO(savedProfile);
+    }
+
+    public UserProfileDTO updateProfile(int id, UserProfileDTO dto) {
+        UserProfile profile = userProfileRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Profile not found"));
+
+        profile.setAge(dto.getAge());
+        profile.setBio(dto.getBio());
+
+        UserProfile updatedProfile = userProfileRepository.save(profile);
+        return toDTO(updatedProfile);
+    }
+
+    public void deleteProfile(int id) {
+        userProfileRepository.deleteById(id);
+    }
+
+
 }

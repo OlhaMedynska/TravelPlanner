@@ -1,4 +1,5 @@
 package org.example.travelplanner.service;
+
 import org.example.travelplanner.dto.ReviewDTO;
 import org.example.travelplanner.entity.Attraction;
 import org.example.travelplanner.entity.Review;
@@ -8,7 +9,9 @@ import org.example.travelplanner.repository.ReviewRepository;
 import org.example.travelplanner.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -17,6 +20,7 @@ class ReviewServiceTest {
     private UserRepository userRepository;
     private AttractionRepository attractionRepository;
     private ReviewService reviewService;
+
     @BeforeEach
     void setUp() {
         reviewRepository = mock(ReviewRepository.class);
@@ -24,6 +28,7 @@ class ReviewServiceTest {
         attractionRepository = mock(AttractionRepository.class);
         reviewService = new ReviewService(reviewRepository, userRepository, attractionRepository);
     }
+
     @Test
     void createReview_ShouldReturnSavedReview() {
         User user = new User();
@@ -44,6 +49,7 @@ class ReviewServiceTest {
         assertEquals(1, result.getUserId());
         assertEquals(1, result.getAttractionId());
     }
+
     @Test
     void createReview_ShouldThrowException_WhenRatingInvalid() {
         ReviewDTO dto = new ReviewDTO();
@@ -51,6 +57,7 @@ class ReviewServiceTest {
         Exception exception = assertThrows(RuntimeException.class, () -> reviewService.createReview(dto));
         assertEquals("Rating must be between 1 and 5", exception.getMessage());
     }
+
     @Test
     void updateReview_ShouldUpdateExistingReview() {
         User user = new User();
@@ -75,6 +82,7 @@ class ReviewServiceTest {
         assertEquals("Updated", result.getComment());
         assertEquals(4, result.getRating());
     }
+
     @Test
     void deleteReview_ShouldCallRepository() {
         doNothing().when(reviewRepository).deleteById(1);

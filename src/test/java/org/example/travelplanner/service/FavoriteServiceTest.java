@@ -1,4 +1,5 @@
 package org.example.travelplanner.service;
+
 import org.example.travelplanner.dto.FavoriteDTO;
 import org.example.travelplanner.entity.Attraction;
 import org.example.travelplanner.entity.Favorite;
@@ -11,8 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import java.util.List;
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -29,6 +32,7 @@ class FavoriteServiceTest {
     private User user;
     private Attraction attraction;
     private Favorite favorite;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -40,12 +44,14 @@ class FavoriteServiceTest {
         favorite.setUser(user);
         favorite.setAttraction(attraction);
     }
+
     @Test
     void getAllFavorites_ShouldReturnList() {
         when(favoriteRepository.findAll()).thenReturn(List.of(favorite));
         List<FavoriteDTO> result = favoriteService.getAllFavorites();
         assertEquals(1, result.size());
     }
+
     @Test
     void getFavoriteById_ShouldReturnDTO() {
         when(favoriteRepository.findById(1)).thenReturn(Optional.of(favorite));
@@ -53,6 +59,7 @@ class FavoriteServiceTest {
         assertEquals(1, result.getUserId());
         assertEquals(1, result.getAttractionId());
     }
+
     @Test
     void createFavorite_ShouldReturnSaved() {
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
@@ -65,6 +72,7 @@ class FavoriteServiceTest {
         assertEquals(1, result.getUserId());
         assertEquals(1, result.getAttractionId());
     }
+
     @Test
     void updateFavorite_ShouldReturnUpdated() {
         when(favoriteRepository.findById(1)).thenReturn(Optional.of(favorite));
@@ -78,6 +86,7 @@ class FavoriteServiceTest {
         assertEquals(1, result.getUserId());
         assertEquals(1, result.getAttractionId());
     }
+
     @Test
     void deleteFavorite_ShouldCallRepository() {
         favoriteService.deleteFavorite(1);

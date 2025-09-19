@@ -36,9 +36,9 @@ public class DestinationService {
         return destination;
     }
 
-//    zwraca obiekt destination jesli istnieje albo wyjatek jak nie(dla dest+atrakcje)
-    public Destination getDestinationEntityById(int id){
-        return destinationRepository.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND, "Destination not found"));
+    //    zwraca obiekt destination jesli istnieje albo wyjatek jak nie(dla dest+atrakcje)
+    public Destination getDestinationEntityById(int id) {
+        return destinationRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Destination not found"));
     }
 
     public Page<DestinationDTO> getAllDestinations(Pageable pageable) {
@@ -58,7 +58,7 @@ public class DestinationService {
     }
 
     public DestinationDTO updateDestination(int id, DestinationDTO dto) {
-        Destination destination = destinationRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Destination not found"));
+        Destination destination = destinationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Destination not found"));
         destination.setName(dto.getName());
         destination.setCountry(dto.getCountry());
         destination.setDescription(dto.getDescription());

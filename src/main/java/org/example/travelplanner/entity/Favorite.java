@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name="favorites")
+@Table(name = "favorites")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,6 +20,6 @@ public class Favorite {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="attraction_id")
+    @JoinColumn(name = "attraction_id")
     private Attraction attraction;
 }

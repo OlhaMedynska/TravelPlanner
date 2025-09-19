@@ -1,4 +1,5 @@
 package org.example.travelplanner.controller;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.travelplanner.dto.ReviewDTO;
 import org.example.travelplanner.service.ReviewService;
@@ -8,12 +9,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @WebMvcTest(ReviewController.class)
 class ReviewControllerTest {
     @Autowired
@@ -22,6 +26,7 @@ class ReviewControllerTest {
     private ObjectMapper objectMapper;
     @MockitoBean
     private ReviewService reviewService;
+
     @Test
     void getAll_ShouldReturnList() throws Exception {
         ReviewDTO review = new ReviewDTO();
@@ -32,6 +37,7 @@ class ReviewControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].comment").value("Nice"));
     }
+
     @Test
     void getById_ShouldReturnReview() throws Exception {
         ReviewDTO review = new ReviewDTO();
@@ -42,6 +48,7 @@ class ReviewControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.comment").value("Nice"));
     }
+
     @Test
     void create_ShouldReturnCreatedReview() throws Exception {
         ReviewDTO dto = new ReviewDTO();
@@ -61,6 +68,7 @@ class ReviewControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.comment").value("Great!"));
     }
+
     @Test
     void update_ShouldReturnUpdatedReview() throws Exception {
         ReviewDTO dto = new ReviewDTO();
@@ -78,6 +86,7 @@ class ReviewControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.comment").value("Updated"));
     }
+
     @Test
     void delete_ShouldReturnOk() throws Exception {
         doNothing().when(reviewService).deleteReview(1);

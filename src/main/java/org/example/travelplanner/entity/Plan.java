@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="plans")
+@Table(name = "plans")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,14 +29,14 @@ public class Plan {
     private String comment;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToMany
     @JoinTable(
-            name="plan_attractions",
-            joinColumns=@JoinColumn(name="plan_id"),
-            inverseJoinColumns = @JoinColumn(name="attraction_id")
+            name = "plan_attractions",
+            joinColumns = @JoinColumn(name = "plan_id"),
+            inverseJoinColumns = @JoinColumn(name = "attraction_id")
     )
 
     private Set<Attraction> attractions = new HashSet<>();

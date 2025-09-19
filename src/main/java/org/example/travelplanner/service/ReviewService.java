@@ -10,6 +10,7 @@ import org.example.travelplanner.repository.AttractionRepository;
 import org.example.travelplanner.repository.ReviewRepository;
 import org.example.travelplanner.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,10 +21,37 @@ public class ReviewService {
     private final UserRepository userRepository;
     private final AttractionRepository attractionRepository;
 
-    public ReviewService(ReviewRepository reviewRepository,UserRepository userRepository,AttractionRepository attractionRepository) {
+    public ReviewService(ReviewRepository reviewRepository, UserRepository userRepository, AttractionRepository attractionRepository) {
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
         this.attractionRepository = attractionRepository;
+    }
+
+    private ReviewDTO toDTO(Review review) {
+        ReviewDTO dto = new ReviewDTO();
+        dto.setComment(review.getComment());
+        dto.setRating(review.getRating());
+        if (review.getAttraction() != null) {
+            dto.setAttractionId(review.getAttraction().getId());
+        }
+        if (review.getUser() != null) {
+            dto.setUserId(review.getUser().getId());
+        }
+        return dto;
+    }
+
+    private Review toEntity(ReviewDTO dto) {
+        Review review = new Review();
+        review.setComment(dto.getComment());
+        review.setRating(dto.getRating());
+
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(() -> new ResourceNotFoundException("Attraction not found"));
+
+        review.setUser(user);
+        review.setAttraction(attraction);
+
+        return review;
     }
 
     public List<ReviewDTO> getAllReviews() {
@@ -49,13 +77,13 @@ public class ReviewService {
     public ReviewDTO updateReview(int id, ReviewDTO dto) {
         validateRating(dto.getRating());
         Review review = reviewRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Review not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Review not found"));
 
         review.setComment(dto.getComment());
         review.setRating(dto.getRating());
 
-        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new ResourceNotFoundException("Attraction is not found"));
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new ResourceNotFoundException("User not found"));
+        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(() -> new ResourceNotFoundException("Attraction is not found"));
+        User user = userRepository.findById(dto.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         review.setUser(user);
         review.setAttraction(attraction);
@@ -68,35 +96,8 @@ public class ReviewService {
         reviewRepository.deleteById(id);
     }
 
-    private ReviewDTO toDTO(Review review) {
-        ReviewDTO dto = new ReviewDTO();
-        dto.setComment(review.getComment());
-        dto.setRating(review.getRating());
-        if(review.getAttraction() != null) {
-            dto.setAttractionId(review.getAttraction().getId());
-        }
-        if(review.getUser() != null) {
-            dto.setUserId(review.getUser().getId());
-        }
-        return dto;
-    }
-
-    private Review toEntity(ReviewDTO dto) {
-        Review review = new Review();
-        review.setComment(dto.getComment());
-        review.setRating(dto.getRating());
-
-        User user = userRepository.findById(dto.getUserId()).orElseThrow(()->new ResourceNotFoundException("User not found"));
-        Attraction attraction = attractionRepository.findById(dto.getAttractionId()).orElseThrow(()->new ResourceNotFoundException("Attraction not found"));
-
-        review.setUser(user);
-        review.setAttraction(attraction);
-
-        return review;
-    }
-
     private void validateRating(int rating) {
-        if(rating < 1 || rating > 5) {
+        if (rating < 1 || rating > 5) {
             throw new BadRequestException("Rating must be between 1 and 5");
         }
     }

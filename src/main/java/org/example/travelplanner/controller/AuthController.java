@@ -1,10 +1,9 @@
 package org.example.travelplanner.controller;
 
-import org.example.travelplanner.dto.LoginRequest;
+import org.example.travelplanner.dto.LoginRequestDTO;
 import org.example.travelplanner.dto.UserDTO;
 import org.example.travelplanner.security.JwUtil;
 import org.example.travelplanner.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +21,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
+    public String login(@RequestBody LoginRequestDTO request) {
         UserDTO user = userService.login(request.getUsername(), request.getPassword());
         return jwUtil.generateToken(user.getUsername());
     }

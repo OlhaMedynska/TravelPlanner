@@ -1,4 +1,5 @@
 package org.example.travelplanner.controller;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.travelplanner.dto.UserDTO;
 import org.example.travelplanner.service.UserService;
@@ -8,13 +9,16 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @WebMvcTest(UserController.class)
 class UserControllerTest {
     @Autowired
@@ -23,6 +27,7 @@ class UserControllerTest {
     private ObjectMapper objectMapper;
     @MockitoBean
     private UserService userService;
+
     @Test
     void getAllUsers_ShouldReturnListOfUsers() throws Exception {
         UserDTO user1 = new UserDTO();
@@ -40,6 +45,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$[0].username").value("janek"))
                 .andExpect(jsonPath("$[1].username").value("kasia"));
     }
+
     @Test
     void getUserById_ShouldReturnUser_WhenExists() throws Exception {
         UserDTO user = new UserDTO();
@@ -52,6 +58,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.username").value("janek"))
                 .andExpect(jsonPath("$.email").value("janek@example.com"));
     }
+
     @Test
     void createUser_ShouldReturnCreatedUser() throws Exception {
         UserDTO dto = new UserDTO();
@@ -70,6 +77,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.username").value("kasia"));
     }
+
     @Test
     void updateUser_ShouldReturnUpdatedUser() throws Exception {
         UserDTO dto = new UserDTO();
@@ -89,6 +97,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.username").value("updatedUser"))
                 .andExpect(jsonPath("$.email").value("new@example.com"));
     }
+
     @Test
     void deleteUser_ShouldReturnOk() throws Exception {
         doNothing().when(userService).deleteUser(1);

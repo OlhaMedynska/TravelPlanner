@@ -28,7 +28,7 @@ public class UserService {
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
 
-        if(user.getProfile() != null) {
+        if (user.getProfile() != null) {
             dto.setAge(user.getProfile().getAge());
             dto.setBio(user.getProfile().getBio());
         }
@@ -39,14 +39,14 @@ public class UserService {
         User user = new User();
         user.setId(dto.getId());
         user.setUsername(dto.getUsername());
-        if(dto.getPassword() != null) {
+        if (dto.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
         user.setEmail(dto.getEmail());
 
         boolean hasProfileData = dto.getAge() != null || dto.getBio() != null && !dto.getBio().isEmpty();
 
-        if(hasProfileData){
+        if (hasProfileData) {
             UserProfile userProfile = new UserProfile();
             userProfile.setAge(dto.getAge() != null ? dto.getAge() : 0);
             userProfile.setBio(dto.getBio());
@@ -84,13 +84,13 @@ public class UserService {
 
         boolean hasProfileData = (dto.getAge() != null || dto.getBio() != null && !dto.getBio().isEmpty());
 
-        if(user.getProfile() == null && hasProfileData) {
+        if (user.getProfile() == null && hasProfileData) {
             UserProfile userProfile = new UserProfile();
             userProfile.setAge(dto.getAge() != null ? dto.getAge() : 0);
             userProfile.setBio(dto.getBio());
             userProfile.setUser(user);
             user.setProfile(userProfile);
-        } else if(user.getProfile() != null){
+        } else if (user.getProfile() != null) {
             user.getProfile().setAge(dto.getAge() != null ? dto.getAge() : 0);
             user.getProfile().setBio(dto.getBio());
         }
@@ -104,21 +104,21 @@ public class UserService {
 
     public UserDTO login(String username, String password) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(()->new BadRequestException("Invalid username or password"));
+                .orElseThrow(() -> new BadRequestException("Invalid username"));
 
-        if(!passwordEncoder.matches(password, user.getPassword())) {
-            throw new BadRequestException("Invalid password or username");
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadRequestException("Invalid password");
         }
 
         return toDTO(user);
     }
 
     private void validateUniqueUser(UserDTO dto) {
-        if(userRepository.findByUsername(dto.getUsername()).isPresent()) {
+        if (userRepository.findByUsername(dto.getUsername()).isPresent()) {
             throw new ConflictException("User name already exists");
         }
 
-        if(userRepository.findByEmail(dto.getEmail()).isPresent()){
+        if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
             throw new ConflictException("Email already exists");
         }
     }

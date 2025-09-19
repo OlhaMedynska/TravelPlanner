@@ -1,4 +1,5 @@
 package org.example.travelplanner.service;
+
 import org.example.travelplanner.dto.UserDTO;
 import org.example.travelplanner.entity.User;
 import org.example.travelplanner.entity.UserProfile;
@@ -9,7 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -21,10 +24,12 @@ class UserServiceTest {
     private PasswordEncoder passwordEncoder;
     @InjectMocks
     private UserService userService;
+
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
     }
+
     @Test
     void getUserById_ShouldReturnUserDTO_WhenUserExists() {
 
@@ -40,12 +45,14 @@ class UserServiceTest {
         assertEquals("janek", result.getUsername());
         assertEquals("janek@example.com", result.getEmail());
     }
+
     @Test
     void getUserById_ShouldReturnNull_WhenUserDoesNotExist() {
         when(userRepository.findById(99)).thenReturn(Optional.empty());
         UserDTO result = userService.getUserById(99);
         assertNull(result);
     }
+
     @Test
     void createUser_ShouldEncodePassword_AndSaveUser() {
         UserDTO dto = new UserDTO();
@@ -65,6 +72,7 @@ class UserServiceTest {
         verify(passwordEncoder).encode("secret");
         verify(userRepository).save(any(User.class));
     }
+
     @Test
     void updateUser_ShouldUpdateExistingUser() {
         User existingUser = new User();
@@ -92,6 +100,7 @@ class UserServiceTest {
         assertEquals("new bio", result.getBio());
         verify(userRepository).save(existingUser);
     }
+
     @Test
     void login_ShouldReturnUser_WhenCredentialsAreValid() {
         User user = new User();
@@ -104,6 +113,7 @@ class UserServiceTest {
         assertNotNull(result);
         assertEquals("janek", result.getUsername());
     }
+
     @Test
     void login_ShouldThrowException_WhenPasswordInvalid() {
         User user = new User();
@@ -116,6 +126,7 @@ class UserServiceTest {
                 () -> userService.login("janek", "wrongPass"));
         assertEquals("Invalid password or username", ex.getMessage());
     }
+
     @Test
     void deleteUser_ShouldCallRepositoryDelete() {
         doNothing().when(userRepository).deleteById(1);

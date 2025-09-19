@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class ReviewDTO {
     @NotBlank(message = "Comment is required")
-    @Size(max=255, message = "Comment must be at most 255 characters")
+    @Size(max = 255, message = "Comment must be at most 255 characters")
     private String comment;
 
     @Min(value = 1, message = "Rating must be at leat 1")

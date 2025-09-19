@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.example.travelplanner.dto.AttractionDTO;
 import org.example.travelplanner.service.AttractionService;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController

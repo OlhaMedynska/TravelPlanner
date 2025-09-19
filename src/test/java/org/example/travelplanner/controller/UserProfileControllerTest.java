@@ -1,4 +1,5 @@
 package org.example.travelplanner.controller;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.travelplanner.dto.UserProfileDTO;
 import org.example.travelplanner.service.UserProfileService;
@@ -9,7 +10,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -24,6 +27,7 @@ class UserProfileControllerTest {
     private UserProfileService userProfileService;
     @Autowired
     private ObjectMapper objectMapper;
+
     @Test
     void getAllProfiles() throws Exception {
         UserProfileDTO dto = new UserProfileDTO();
@@ -35,6 +39,7 @@ class UserProfileControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].age").value(25));
     }
+
     @Test
     void getProfileById_found() throws Exception {
         UserProfileDTO dto = new UserProfileDTO();
@@ -46,6 +51,7 @@ class UserProfileControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.bio").value("Traveler"));
     }
+
     @Test
     void createProfile_success() throws Exception {
         UserProfileDTO dto = new UserProfileDTO();
@@ -59,6 +65,7 @@ class UserProfileControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.bio").value("Explorer"));
     }
+
     @Test
     void deleteProfile_success() throws Exception {
         Mockito.doNothing().when(userProfileService).deleteProfile(1);

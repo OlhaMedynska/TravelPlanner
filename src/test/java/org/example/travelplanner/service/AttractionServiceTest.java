@@ -1,4 +1,5 @@
 package org.example.travelplanner.service;
+
 import org.example.travelplanner.dto.AttractionDTO;
 import org.example.travelplanner.entity.Attraction;
 import org.example.travelplanner.entity.Category;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
@@ -36,6 +38,7 @@ class AttractionServiceTest {
     private Attraction attraction;
     private Destination destination;
     private Category category;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -53,6 +56,7 @@ class AttractionServiceTest {
         attraction.setCategory(category);
         attraction.setDestination(destination);
     }
+
     @Test
     void getAttractionsByDestinationId_ShouldReturnList() {
         Destination destination = new Destination();
@@ -71,6 +75,7 @@ class AttractionServiceTest {
         verify(destinationService).getDestinationEntityById(anyInt());
         verify(attractionRepository).findByDestinationId(anyInt(), any(Pageable.class));
     }
+
     @Test
     void createAttraction_ShouldReturnSavedAttraction() {
         AttractionDTO dto = new AttractionDTO();

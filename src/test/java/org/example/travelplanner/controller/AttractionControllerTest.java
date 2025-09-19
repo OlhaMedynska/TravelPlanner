@@ -1,4 +1,5 @@
 package org.example.travelplanner.controller;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.travelplanner.dto.AttractionDTO;
 import org.example.travelplanner.service.AttractionService;
@@ -10,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -24,12 +26,14 @@ class AttractionControllerTest {
     private AttractionController attractionController;
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(attractionController).build();
         objectMapper = new ObjectMapper();
     }
+
     @Test
     void getAll_ShouldReturnList() throws Exception {
         AttractionDTO dto = new AttractionDTO();
@@ -39,6 +43,7 @@ class AttractionControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value("Louvre"));
     }
+
     @Test
     void create_ShouldReturnSavedAttraction() throws Exception {
         AttractionDTO dto = new AttractionDTO();

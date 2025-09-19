@@ -1,4 +1,5 @@
 package org.example.travelplanner.controller;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.travelplanner.dto.FavoriteDTO;
 import org.example.travelplanner.service.FavoriteService;
@@ -10,7 +11,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import java.util.List;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -23,6 +26,7 @@ class FavoriteControllerTest {
     private FavoriteController favoriteController;
     private ObjectMapper objectMapper = new ObjectMapper();
     private FavoriteDTO dto;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -31,6 +35,7 @@ class FavoriteControllerTest {
         dto.setUserId(1);
         dto.setAttractionId(1);
     }
+
     @Test
     void getAll_ShouldReturnList() throws Exception {
         when(favoriteService.getAllFavorites()).thenReturn(List.of(dto));
@@ -39,6 +44,7 @@ class FavoriteControllerTest {
                 .andExpect(jsonPath("$[0].userId").value(1))
                 .andExpect(jsonPath("$[0].attractionId").value(1));
     }
+
     @Test
     void getById_ShouldReturnDTO() throws Exception {
         when(favoriteService.getFavoriteById(1)).thenReturn(dto);
@@ -47,6 +53,7 @@ class FavoriteControllerTest {
                 .andExpect(jsonPath("$.userId").value(1))
                 .andExpect(jsonPath("$.attractionId").value(1));
     }
+
     @Test
     void create_ShouldReturnDTO() throws Exception {
         when(favoriteService.createFavorite(any(FavoriteDTO.class))).thenReturn(dto);
@@ -57,6 +64,7 @@ class FavoriteControllerTest {
                 .andExpect(jsonPath("$.userId").value(1))
                 .andExpect(jsonPath("$.attractionId").value(1));
     }
+
     @Test
     void update_ShouldReturnDTO() throws Exception {
         when(favoriteService.updateFavorite(eq(1), any(FavoriteDTO.class))).thenReturn(dto);
@@ -67,6 +75,7 @@ class FavoriteControllerTest {
                 .andExpect(jsonPath("$.userId").value(1))
                 .andExpect(jsonPath("$.attractionId").value(1));
     }
+
     @Test
     void delete_ShouldReturnOk() throws Exception {
         doNothing().when(favoriteService).deleteFavorite(1);
