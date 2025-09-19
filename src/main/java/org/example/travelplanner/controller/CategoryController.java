@@ -2,15 +2,17 @@ package org.example.travelplanner.controller;
 
 import jakarta.validation.Valid;
 import org.example.travelplanner.dto.CategoryDTO;
-import org.example.travelplanner.entity.Category;
 import org.example.travelplanner.service.CategoryService;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
-
     private final CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {
@@ -28,17 +30,26 @@ public class CategoryController {
     }
 
     @PostMapping
-    public CategoryDTO create(@RequestBody @Valid CategoryDTO dto) {
-        return categoryService.createCategory(dto);
+    public ResponseEntity<?> create(@RequestBody @Valid CategoryDTO dto) {
+        try {
+            return ResponseEntity.ok(categoryService.createCategory(dto));
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.badRequest().body("Category with this name already exists");
+        }
     }
 
     @PutMapping("/{id}")
-    public CategoryDTO update(@PathVariable int id, @RequestBody @Valid CategoryDTO dto) {
-        return categoryService.updateCategory(id, dto);
+    public ResponseEntity<?> update(@PathVariable int id, @RequestBody @Valid CategoryDTO dto) {
+        try {
+            return ResponseEntity.ok(categoryService.updateCategory(id, dto));
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.badRequest().body("Category with this name already exists");
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable int id) {
+    public ResponseEntity<Void> delete(@PathVariable int id) {
         categoryService.deleteCategory(id);
+        return ResponseEntity.noContent().build();
     }
 }

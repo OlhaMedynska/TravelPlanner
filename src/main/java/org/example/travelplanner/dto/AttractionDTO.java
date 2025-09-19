@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.unbescape.xml.XmlEscape;
 
 @Getter
 @Setter
@@ -20,7 +19,7 @@ public class AttractionDTO {
     private Double price;
 
     @NotBlank(message = "Description is required")
-    @Size(max=255, message = "Description must be at most 255 characters")
+    @Size(max = 255, message = "Description must be at most 255 characters")
     private String description;
 
     @NotNull(message = "Category ID is required")

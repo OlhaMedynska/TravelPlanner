@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name="user_profiles")
+@Table(name = "user_profiles")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,7 +19,8 @@ public class UserProfile {
     private String bio;
 
     @OneToOne
-    @JoinColumn(name="user_id", unique = true)
+    @JoinColumn(name = "user_id", unique = true)
+//    nie wstawiac pole do jsona
     @JsonBackReference
     private User user;
 }

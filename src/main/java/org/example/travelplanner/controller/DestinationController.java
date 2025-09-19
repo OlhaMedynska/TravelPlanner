@@ -3,11 +3,13 @@ package org.example.travelplanner.controller;
 import jakarta.validation.Valid;
 import org.example.travelplanner.dto.AttractionDTO;
 import org.example.travelplanner.dto.DestinationDTO;
-import org.example.travelplanner.entity.Destination;
 import org.example.travelplanner.service.AttractionService;
 import org.example.travelplanner.service.DestinationService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/destinations")
@@ -22,8 +24,8 @@ public class DestinationController {
     }
 
     @GetMapping
-    public List<DestinationDTO> getAll() {
-        return destinationService.getAllDestinations();
+    public Page<DestinationDTO> getAll(Pageable pageable) {
+        return destinationService.getAllDestinations(pageable);
     }
 
     @GetMapping("/{id}")
@@ -47,23 +49,24 @@ public class DestinationController {
     }
 
     @GetMapping("/search")
-    public List<DestinationDTO> searchDestinations(@RequestParam String name) {
+    public Page<DestinationDTO> searchDestinations(@RequestParam String name, Pageable pageable) {
         if (name == null || name.isEmpty()) {
-            return destinationService.getAllDestinations();
+            return destinationService.getAllDestinations(Pageable.unpaged());
         }
-        return destinationService.searchDestinationsByName(name);
+        return destinationService.searchDestinationsByName(name, pageable);
     }
 
     @GetMapping("/searchByCountry")
-    public List<DestinationDTO> searchByCountry(@RequestParam String country) {
+    public Page<DestinationDTO> searchByCountry(@RequestParam String country, Pageable pageable) {
         if (country == null || country.isEmpty()) {
-            return destinationService.getAllDestinations();
+            return destinationService.getAllDestinations(Pageable.unpaged());
         }
-        return destinationService.searchDestinationsByCountry(country);
+        return destinationService.searchDestinationsByCountry(country, pageable);
     }
 
     @GetMapping("/{id}/attractions")
-    public List<AttractionDTO> getAttractionsByDestination(@PathVariable int id) {
-        return attractionService.getAttractionsByDestinationId(id);
+    public Page<AttractionDTO> getAttractionsByDestination(@PathVariable int id, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return attractionService.getAttractionsByDestinationId(id, pageable);
     }
 }
